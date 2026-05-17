@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Sentiment Analysis</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background: linear-gradient(to right, #30cfd0, #330867);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+        }
+        .container {
+            margin-top: 5%;
+            max-width: 600px;
+            background: rgba(0,0,0,0.6);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        textarea {
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #89f7fe, #330867);
+            border: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #330867, #89f7fe);
+        }
+        .prediction {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .positive { background-color: #28a745; color: #fff; }
+        .neutral { background-color: #ffc107; color: #000; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Twitter Sentiment Analysis</h1>
+        <form method="POST">
+            <div class="mb-3">
+                <textarea class="form-control" name="tweet" rows="4" placeholder="Enter tweet here...">{{ tweet }}</textarea>
+            </div>
+            <!-- Only one main Predict button -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Predict Sentiment</button>
+            </div>
+        </form>
+
+        <!-- Display Prediction -->
+        {% if prediction %}
+        <div class="prediction
+            {% if 'Positive' in prediction %}positive{% else %}neutral{% endif %}">
+            {{ prediction }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- SweetAlert popup -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {% if prediction %}
+    <script>
+        Swal.fire({
+            title: 'Prediction Result',
+            text: '{{ prediction }}',
+            icon: '{{ "success" if "Positive" in prediction else "info" }}',
+            confirmButtonText: 'OK',
+            background: '#330867',
+            color: '#fff'
+        });
+    </script>
+    {% endif %}
+</body>
+</html>
