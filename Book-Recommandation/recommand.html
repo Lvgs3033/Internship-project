@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Recommend Books</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background: linear-gradient(-45deg,#000000,#141e30,#243b55,#000000);
+background-size:400% 400%;
+animation:bgMove 10s infinite ease;
+color:white;
+min-height:100vh;
+}
+
+/* Background animation */
+@keyframes bgMove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* Navbar */
+.navbar{
+background:rgba(0,255,170,0.15);
+backdrop-filter:blur(10px);
+box-shadow:0 0 20px rgba(0,255,170,0.5);
+padding:15px;
+}
+
+.navbar-brand{
+color:#00ffaa !important;
+font-size:28px;
+font-weight:bold;
+text-shadow:0 0 10px #00ffaa;
+}
+
+/* Title */
+.title{
+font-size:50px;
+font-weight:700;
+text-align:center;
+margin-top:30px;
+background:linear-gradient(90deg,#00ffaa,#00c3ff);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+/* Search box */
+.search-box{
+margin-top:30px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+padding:20px;
+border-radius:15px;
+box-shadow:0 0 20px rgba(0,255,200,0.3);
+}
+
+.search-input{
+background:transparent;
+border:2px solid #00ffaa;
+color:white;
+border-radius:30px;
+padding:12px;
+}
+
+.search-input:focus{
+box-shadow:0 0 15px #00ffaa;
+border-color:#00ffaa;
+}
+
+/* Button */
+.search-btn{
+background:linear-gradient(45deg,#00ffaa,#00c3ff);
+border:none;
+color:black;
+font-weight:bold;
+border-radius:30px;
+padding:12px 30px;
+transition:.3s;
+}
+
+.search-btn:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px #00ffaa;
+}
+
+/* Card */
+.book-card{
+background:rgba(255,255,255,0.07);
+border-radius:15px;
+backdrop-filter:blur(12px);
+box-shadow:0 0 20px rgba(0,255,200,0.2);
+transition:.4s;
+padding:15px;
+}
+
+.book-card:hover{
+transform:translateY(-12px) scale(1.05);
+box-shadow:0 0 40px rgba(0,255,200,0.8);
+}
+
+.book-img{
+height:260px;
+width:100%;
+object-fit:cover;
+border-radius:10px;
+}
+
+.book-title{
+color:#00ffaa;
+font-weight:bold;
+margin-top:10px;
+}
+
+.book-author{
+color:#ccc;
+font-size:14px;
+}
+
+/* Fade animation */
+.fade-in{
+opacity:0;
+transform:translateY(40px);
+transition:.8s;
+}
+
+.fade-in.show{
+opacity:1;
+transform:translateY(0);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+<div class="container-fluid">
+
+<span class="navbar-brand">
+<i class="fas fa-book-open"></i> Recommender
+</span>
+
+<ul class="navbar-nav ms-auto">
+<li class="nav-item">
+<a class="nav-link text-white" href="/">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link text-white" href="/recommend">Recommend</a>
+</li>
+
+</ul>
+
+</div>
+</nav>
+
+
+<div class="container">
+
+<h1 class="title">Book Recommendation</h1>
+
+<!-- Search -->
+<div class="search-box text-center">
+
+<form action="/recommend_books" method="post">
+
+<input name="user_input"
+type="text"
+class="form-control search-input"
+placeholder="Type a book name..."
+required>
+
+<br>
+
+<button class="search-btn">
+<i class="fas fa-search"></i> Recommend
+</button>
+
+</form>
+
+</div>
+
+
+<!-- Results -->
+<div class="row">
+
+{% if data %}
+
+{% for i in data %}
+
+<div class="col-lg-3 col-md-4 col-sm-6 mt-4 fade-in">
+
+<div class="book-card">
+
+<img src="{{i[2]}}" class="book-img">
+
+<div class="book-title">
+{{i[0]}}
+</div>
+
+<div class="book-author">
+<i class="fas fa-user"></i> {{i[1]}}
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+</div>
+
+</div>
+
+
+<!-- Scroll animation -->
+<script>
+
+const elements = document.querySelectorAll('.fade-in');
+
+window.addEventListener('scroll', () => {
+
+elements.forEach(el => {
+
+if(el.getBoundingClientRect().top < window.innerHeight - 100){
+el.classList.add('show');
+}
+
+});
+
+});
+
+</script>
+
+
+</body>
+</html>
